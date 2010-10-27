@@ -14,9 +14,9 @@ App::import('Core', array('File', 'Folder', 'Sanitize'));
 
 class AssetHelper extends Helper {
 	var $options = array(
-		//Cake debug = 0  packed js/css returned.  $this->options['md5FileName']options['debug'] doesn't do anything.
-		//Cake debug > 0, $this->options['md5FileName']options['debug'] = false    essentially turns the helper off.  js/css not packed.  Good for debugging your js/css files.
-		//Cake debug > 0, $this->options['md5FileName']options['debug'] = true     packed js/css returned.  Good for debugging this helper.
+		//Cake debug = 0  packed js/css returned.  $this->options['debug'] doesn't do anything.
+		//Cake debug > 0, $this->options['debug'] = false    essentially turns the helper off.  js/css not packed.  Good for debugging your js/css files.
+		//Cake debug > 0, $this->options['debug'] = true     packed js/css returned.  Good for debugging this helper.
 		'debug' => false, 
 		
 		//there is a *minimal* perfomance hit associated with looking up the filemtimes
@@ -25,7 +25,7 @@ class AssetHelper extends Helper {
 		
 		//the packed files are named by stringing together all the individual file names
 		//this can generate really long names, so by setting this option to true
-		//the long name is md5'd, producing a resonable length file name.
+		//the long name is md5'd, producing a reasonable length file name.
 		'md5FileName' => false, 
 		
 		//Additional paths for searching for css/js
