@@ -12,7 +12,7 @@
 
 App::import('Core', array('File', 'Folder', 'Sanitize'));
 
-class AssetHelper extends Helper {
+class AssetPackerHelper extends Helper {
 	var $options = array(
 		//Cake debug = 0  packed js/css returned.  $this->options['debug'] doesn't do anything.
 		//Cake debug > 0, $this->options['debug'] = false    essentially turns the helper off.  js/css not packed.  Good for debugging your js/css files.
@@ -32,14 +32,7 @@ class AssetHelper extends Helper {
 		'searchPaths' => array(), 
 		
 		//Paths for storing the compressed files, relative to your webroot
-		'cachePaths' => array('css' => 'ccss', 'js' => 'cjs'), 
-		
-		//options: default, low_compression, high_compression, highest_compression
-		//I like high_compression because it still leaves the file readable.
-		'cssCompression' => 'high_compression', 
-		
-		//replace relative img paths in css files with full http://...
-		'fixCssImg' => false
+		'cachePaths' => array('css' => 'ccss', 'js' => 'cjs')
 	);
 	
 	//Class for localizing JS files if JS I18N plugin is installed
@@ -268,9 +261,7 @@ class AssetHelper extends Helper {
 					}
 					break;
 				case 'css':
-					App::import('Vendor', 'csstidy', array('file' => 'class.csstidy.php'));
-					$tidy = new csstidy();
-					$tidy->load_template($this->options['cssCompression']);
+					App::import('Vendor', 'CssMin', array('file' => 'CssMin.php'));
 					break;
 			}
 			
@@ -288,12 +279,7 @@ class AssetHelper extends Helper {
 						}
 						break;
 					case 'css':
-						if($this->options['fixCssImg']) {
-							$buffer = $this->__preprocessCss($asset, $buffer);
-						}
-						
-						$tidy->parse($buffer);
-						$buffer = $tidy->print->plain();
+						$buffer = CssMin::minify($buffer);
 						break;
 				}
 				
